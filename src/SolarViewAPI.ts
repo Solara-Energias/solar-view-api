@@ -1,4 +1,5 @@
 import { POST } from './api';
+import { GeneralStatus } from './classes/GeneralStatus';
 import { Unit } from './classes/Unit';
 import { FetchUnitData, FetchUnitOptions } from './typings';
 
@@ -10,9 +11,11 @@ export class SolarViewAPI {
   public async fetchUnits(
     options: FetchUnitOptions
   ): Promise<FetchUnitData | undefined> {
-    const res = await POST(this.unitBaseUrl + 'unitList?page=1', options, {
-      headers: { 'solarview-tokenUniversal': this.apiKey },
-    });
+    const res = await POST(
+      this.unitBaseUrl + 'unitList?page=1',
+      this.apiKey,
+      options
+    );
 
     const data = await res.json();
 
@@ -22,6 +25,15 @@ export class SolarViewAPI {
         total: data.total,
       };
     }
-    return undefined;
+  }
+
+  public async fetchGeneralStatus(): Promise<GeneralStatus | undefined> {
+    const res = await POST(this.unitBaseUrl + 'unitList/status', this.apiKey);
+
+    const data = await res.json();
+
+    if (res.ok && data) {
+      return new GeneralStatus(data);
+    }
   }
 }

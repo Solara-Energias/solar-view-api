@@ -7,13 +7,22 @@ export function GET(url: string, options?: RequestInit) {
   return fetch(url, options);
 }
 
-export function POST(url: string, body: any, options?: Omit<RequestInit, 'body'>) {
+export function POST(
+  url: string,
+  key: string,
+  body?: any,
+  options?: RequestInit
+) {
   options = {
     ...options,
     method: 'POST',
+    headers: { 'solarview-tokenUniversal': key },
   };
 
-  body = JSON.stringify(body);
+  if (body) {
+    body = JSON.stringify(body);
+    options = { ...options, body };
+  }
 
-  return fetch(url, { ...options, body });
+  return fetch(url, options);
 }

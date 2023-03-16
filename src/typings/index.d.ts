@@ -4,7 +4,7 @@ export enum UnitStatus {
   Online = ['2', '11'],
   NoGeneration = ['5', '6'],
   NoCommunication = ['4', '10'],
-  NoMonitoring = ['1', '7', '8', '9', '12'],
+  NoMonitored = ['1', '7', '8', '9', '12'],
   Offline = ['3', '13'],
 }
 
